@@ -10,25 +10,25 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE PROCEDURE [dbo].TransferFunds
-    @accountFromNumber INT NULL,
-    @accountToNumber INT NULL,
-    @amount DOUBLE PRECISION
+    @fromAccountNumber int NULL,
+    @toAccountNumber int NULL,
+    @amount double PRECISION
 AS
 BEGIN
     SET NOCOUNT ON
 
-    DECLARE @return_value VARCHAR(25)
-    DECLARE @accountFrombalance DOUBLE PRECISION
-    DECLARE @accountTobalance DOUBLE PRECISION
-    DECLARE @ErrorMsg NVARCHAR(4000)
-    DECLARE @ErrSeverity INT
-    DECLARE @ErrState INT
-    DECLARE @TransactionId INT
+    DECLARE @return_value varchar(25)
+    DECLARE @fromAccountBalance double PRECISION
+    DECLARE @toAccountBalance double PRECISION
+    DECLARE @ErrorMsg nvarchar(4000)
+    DECLARE @ErrSeverity int
+    DECLARE @ErrState int
+    DECLARE @TransactionId int
 
-    SET @accountFrombalance = (SELECT balance FROM account WHERE accountNumber = @accountFromNumber)
-    SET @accountTobalance = (SELECT balance FROM account WHERE accountNumber = @accountToNumber)
+    SET @fromAccountBalance = (SELECT balance FROM account WHERE accountNumber = @fromAccountNumber)
+    SET @toAccountBalance = (SELECT balance FROM account WHERE accountNumber = @toAccountNumber)
 
-    IF @accountFrombalance < @amount 
+    IF @fromAccountBalance < @amount 
     BEGIN
         SET @return_value = 'insufficient holdings'
     END
@@ -36,18 +36,18 @@ BEGIN
         BEGIN
             BEGIN TRY  
                     BEGIN TRANSACTION
-                        SET @accountFrombalance = @accountFrombalance - @amount
-                        SET @accountTobalance = @accountTobalance + @amount
+                        SET @fromAccountBalance = @fromAccountBalance - @amount
+                        SET @toAccountBalance = @toAccountbalance + @amount
                     
-                        UPDATE account SET balance = @accountFrombalance WHERE accountNumber = @accountFromNumber
-                        UPDATE account SET balance = @accountTobalance WHERE accountNumber = @accountToNumber
+                        UPDATE account SET balance = @fromAccountbalance WHERE accountNumber = @fromAccountNumber
+                        UPDATE account SET balance = @toAccountBalance WHERE accountNumber = @toAccountNumber
 
                         SET @TransactionId = (SELECT MAX(TransactionId) + 1 FROM [dbo].[TransactionsHistory])
 
                         INSERT INTO [dbo].[TransactionsHistory]
-                                    (TransactionId, AccountFromNumber, AccountToNumber, TransactionTime, AmountDebit, FromAccountBalance, ToAccountBalance)
+                                    (TransactionId, FromAccountNumber, ToAccountNumber, TransactionTime, AmountDebit, FromAccountBalance, ToAccountBalance)
                         VALUES
-                                    (@TransactionId, @accountFromNumber, @accountToNumber, GETDATE(), @amount, @accountFrombalance, @accountTobalance)   
+                                    (@TransactionId, @fromAccountNumber, @toAccountNumber, GETDATE(), @amount, @fromAccountbalance, @toAccountbalance)   
                                                
                     COMMIT TRANSACTION                  
                 END TRY

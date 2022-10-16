@@ -4,18 +4,19 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[TransactionsHistory]
 (
-    [TransactionId] [INT] NOT NULL,
-    [AccountFromNumber] [INT] NULL,
-    [AccountToNumber] [INT] NULL,
-    [TransactionTime] [DATETIME] NULL,
-    [AmountDebit] [FLOAT] NULL,
-    [FromAccountBalance] [FLOAT] NULL,
-    [ToAccountBalance] [FLOAT] NULL
+    [Id] int NOT NULL IDENTITY,
+    [TransactionId] [int] NOT NULL,
+    [FromAccountNumber] [int] NULL,
+    [ToAccountNumber] [int] NULL,
+    [TransactionTime] [datetime] NULL,
+    [AmountDebit] [float] NULL,
+    [FromAccountBalance] [float] NULL,
+    [ToAccountBalance] [float] NULL
 ) ON [PRIMARY]
 GO
 ALTER TABLE [dbo].[TransactionsHistory] ADD PRIMARY KEY CLUSTERED 
 (
-	[TransactionId] ASC
+	[Id] ASC
 )WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 GO
 
@@ -34,10 +35,8 @@ DECLARE @toAccountBalance FLOAT = 50;
 
 WHILE @count <= 10
 BEGIN
-INSERT INTO TransactionsHistory ( TransactionId, AccountFromNumber, AccountToNumber, TransactionTime, AmountDebit, FromAccountBalance, ToAccountBalance) 
+INSERT INTO TransactionsHistory ( TransactionId, FromAccountNumber, ToAccountNumber, TransactionTime, AmountDebit, FromAccountBalance, ToAccountBalance) 
 VALUES ( @transactionId + @count, @fromAccountNumber + @count, @toAccountNumber + + @count , GETDATE() + @count, @amountDebit  + @count , @fromAccountBalance + @count, @toAccountBalance + @count)
    SET @count = @count + 1
 END
 */
-
-drop table TransactionsHistory
