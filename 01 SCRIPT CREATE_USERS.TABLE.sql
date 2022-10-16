@@ -4,17 +4,18 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[Users]
 (
-	[UserId] [CHAR] (32) NOT NULL,
-	[FirstName] [CHAR] (32) NULL,
-	[LastName] [CHAR] (32) NULL,
-	[UserRole] [CHAR] (32) NULL
+	[Id] int NOT NULL IDENTITY,
+	[UserId] [char] (32) NOT NULL,
+	[FirstName] [car] (32) NULL,
+	[LastName] [car] (32) NULL,
+	[UserRole] [char] (32) NULL
 ) ON [PRIMARY]
 GO
 SET ANSI_PADDING ON
 GO
 ALTER TABLE [dbo].[Users] ADD PRIMARY KEY CLUSTERED 
 (
-	[UserId] ASC
+	[Id] ASC
 )WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 GO
 

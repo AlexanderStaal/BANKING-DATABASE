@@ -9,14 +9,14 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE PROCEDURE [dbo].[CreateAccount]
-    @accountName VARCHAR(32),
-    @balance DOUBLE PRECISION
+    @accountName varchar(32),
+    @balance double PRECISION
 AS
 BEGIN
     SET NOCOUNT ON
 
     DECLARE @return_value varchar(45)
-    DECLARE @accountNumber INT
+    DECLARE @accountNumber int
 
     IF EXISTS (SELECT 1
     FROM Account

@@ -4,10 +4,10 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[Account]
 (
-    [Id] INT NOT NULL IDENTITY,
-    [AccountNumber] [INT] NOT NULL,
-    [AccountName] [VARCHAR] (32) NULL,
-    [Balance] [FLOAT] NULL
+    [Id] int NOT NULL IDENTITY,
+    [AccountNumber] [int] NOT NULL,
+    [AccountName] [varchar] (32) NULL,
+    [Balance] [float] NULL
 ) ON [PRIMARY]
 GO
 ALTER TABLE [dbo].[Account] ADD PRIMARY KEY CLUSTERED 
